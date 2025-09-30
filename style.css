@@ -10,6 +10,11 @@
     --border-color: #dee2e6;
 }
 
+/* ===== IMPROVEMENT 1: Universal Box Sizing ===== */
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -29,10 +34,10 @@ body {
     background-color: rgba(255, 255, 255, 0.9);
     padding: 15px 0;
     border-bottom: 1px solid var(--border-color);
-    position: sticky; /* This makes the menu stick to the top */
+    position: sticky;
     top: 0;
-    z-index: 1000; /* Ensures it stays above other content */
-    backdrop-filter: blur(10px); /* Frosted glass effect */
+    z-index: 1000;
+    backdrop-filter: blur(10px);
 }
 
 .main-header.container {
@@ -74,12 +79,12 @@ body {
 
 /* ===== NEW: Engaging Hero Section with Background Image Slideshow ===== */
 .hero-section {
-    position: relative; /* Needed for positioning the slideshow and content */
+    position: relative;
     text-align: center;
     padding: 80px 20px;
     color: white;
     border-radius: 0 0 20px 20px;
-    overflow: hidden; /* Hides parts of images that are outside the container */
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,10 +97,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Puts the slideshow behind the overlay and content */
+    z-index: 1;
 }
 
-.hero-slideshow::after { /* Dark overlay for better text readability */
+.hero-slideshow::after {
     content: '';
     position: absolute;
     top: 0;
@@ -112,10 +117,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures images cover the area without distortion */
+    object-fit: cover;
     opacity: 0;
-    transition: opacity 1.5s ease-in-out; /* Smooth fade transition */
-    animation: zoom 35s infinite; /* Slow zoom effect */
+    transition: opacity 1.5s ease-in-out;
+    animation: zoom 35s infinite;
 }
 
 .hero-slideshow img.active {
@@ -124,7 +129,7 @@ body {
 
 .hero-content {
     position: relative;
-    z-index: 3; /* Ensures content is on top of slideshow and overlay */
+    z-index: 3;
 }
 
 @keyframes zoom {
@@ -183,17 +188,61 @@ body {
 
 /* ===== Content Area ===== */
 .content-area {
-    display: flex;
+    display: grid; /* Changed to grid for better layout control */
+    grid-template-columns: 1fr 3fr 1.5fr; /* 3 columns: filters, jobs, dashboard */
     gap: 30px;
     margin-top: 50px;
 }
 
 .job-listings {
-    flex: 3;
+    grid-column: 2 / 3;
 }
 
 .user-dashboard {
-    flex: 1;
+    grid-column: 3 / 4;
+}
+
+/* ===== NEW: Filters Sidebar Styling ===== */
+.filters-sidebar {
+    grid-column: 1 / 2;
+    background-color: var(--card-background);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    height: fit-content; /* Sidebar will only be as tall as its content */
+}
+
+.filters-sidebar h4 {
+    margin-top: 0;
+    font-size: 20px;
+    color: var(--heading-color);
+    margin-bottom: 20px;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+}
+
+.filter-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.filter-group select,.filter-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    font-size: 14px;
+}
+
+#salary-value {
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: 500;
+    color: var(--primary-color);
 }
 
 .job-listings h2,.user-dashboard h4 {
@@ -202,7 +251,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* ===== NEW: Redesigned Job Card ===== */
+/* ===== Redesigned Job Card ===== */
 .job-card {
     background-color: var(--card-background);
     border: 1px solid var(--border-color);
@@ -230,8 +279,8 @@ body {
 }
 
 .match-score {
-    background-color: #d1e7dd; /* Light green */
-    color: #0f5132; /* Dark green */
+    background-color: #d1e7dd;
+    color: #0f5132;
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 12px;
@@ -243,6 +292,16 @@ body {
     margin: 10px 0;
     font-weight: 500;
     color: #6c757d;
+}
+
+/* NEW: Clickable company name */
+.job-card-company a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: text-decoration 0.3s ease;
+}
+.job-card-company a:hover {
+    text-decoration: underline;
 }
 
 .job-summary {
@@ -279,7 +338,7 @@ body {
     color: white;
 }
 
-/* ===== NEW: Redesigned Dashboard ===== */
+/* ===== Redesigned Dashboard ===== */
 .user-dashboard h4 {
     text-align: center;
 }
@@ -318,4 +377,42 @@ body {
     margin-top: 50px;
     border-top: 1px solid var(--border-color);
     background-color: var(--card-background);
+}
+
+/* ===== IMPROVEMENT 2: Mobile Responsiveness ===== */
+@media (max-width: 992px) {
+   .content-area {
+        grid-template-columns: 1fr 2fr; /* 2 columns on tablets */
+    }
+   .user-dashboard {
+        display: none; /* Hide dashboard on smaller screens to save space */
+    }
+}
+
+@media (max-width: 768px) {
+   .content-area {
+        grid-template-columns: 1fr; /* 1 column on mobile */
+    }
+   .filters-sidebar {
+        grid-row: 1; /* Make filters appear on top */
+    }
+   .search-bar {
+        flex-direction: column;
+    }
+   .main-header.container {
+        flex-direction: column;
+        gap: 15px;
+    }
+   .main-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+   .main-nav a {
+        margin-left: 0;
+    }
+   .hero-section h1 {
+        font-size: 36px;
+    }
 }
