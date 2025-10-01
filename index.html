@@ -41,8 +41,8 @@
                 <h1>Apna Mustaqbil Yahan Talaash Karein</h1>
                 <p>Pakistan ka sab se smart job portal, jahan har professional ko uski manzil milti hai.</p>
                 <div class="search-bar">
-                    <input type="text" placeholder="Job title, keyword, ya company">
-                    <input type="text" placeholder="Sheher ya 'Ghar se kaam'">
+                    <input type="text" id="search-title" placeholder="Job title, keyword, ya company">
+                    <input type="text" id="search-location" placeholder="Sheher ya 'Ghar se kaam'">
                     <button class="search-btn">Naukri Dhoondein</button>
                 </div>
             </div>
@@ -50,6 +50,34 @@
 
         <div class="container content-area">
             
+            <aside class="filters-sidebar">
+                <h4>Filters</h4>
+                <div class="filter-group">
+                    <label for="job-type">Job Type</label>
+                    <select id="job-type" name="job-type">
+                        <option value="all">All Types</option>
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Internship">Internship</option>
+                        <option value="Freelance">Freelance</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="experience-level">Experience Level</label>
+                    <select id="experience-level" name="experience-level">
+                        <option value="all">All Levels</option>
+                        <option value="Entry Level">Entry Level</option>
+                        <option value="Mid-Career">Mid-Career</option>
+                        <option value="Senior">Senior</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="salary-range">Salary Range</label>
+                    <input type="range" id="salary-range" name="salary-range" min="0" max="500000" step="10000" value="0">
+                    <span id="salary-value">Any Salary</span>
+                </div>
+            </aside>
+
             <div class="job-listings">
                 <h2>Featured Jobs</h2>
                 </div>

@@ -1,10 +1,12 @@
 // ===== Hissa 1: Supabase se Connection Qayam Karna =====
 
 // Apni Supabase URL aur Key yahan paste karein.
-const supabaseUrl = 'YOUR_SUPABASE_URL'; // https://rtmhpqbvhdshyznpilaj.supabase.co
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0bWhwcWJ2aGRzaHl6bnBpbGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNTY1MzEsImV4cCI6MjA3NDczMjUzMX0.S8E_l1UdWI8VaXyk0v7gMAlZdT8LMUA3a6UybRd2j40
+const supabaseUrl = 'YOUR_SUPABASE_URL'; // Yahan apni URL paste karein
+const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // Yahan apni anon key paste karein
 
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+// -- SAHI TAREEQA --
+const { createClient } = window.supabase;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 
 // ===== Hissa 2: Database se Jobs Fetch Karna aur Dikhana =====
@@ -13,8 +15,8 @@ async function loadJobs() {
     const jobListings = document.querySelector('.job-listings');
 
     const { data: jobs, error } = await supabase
-    .from('jobs')
-    .select(`
+     .from('jobs')
+     .select(`
             *,
             companies ( name, logo_url )
         `);
@@ -24,12 +26,14 @@ async function loadJobs() {
         return;
     }
 
-    // Pehle se mojood tamam hardcoded job cards ko saaf karein.
     jobListings.innerHTML = '<h2>Featured Jobs</h2>'; 
 
     jobs.forEach(job => {
         const jobCard = document.createElement('article');
         jobCard.classList.add('job-card');
+
+        const companyName = job.companies ? job.companies.name : 'N/A';
+        const companyLink = `<a href="#">${companyName}</a>`; // Placeholder link
 
         jobCard.innerHTML = `
             <div class="job-card-header">
@@ -37,10 +41,10 @@ async function loadJobs() {
                 <span class="match-score">95% Match</span>
             </div>
             <div class="job-card-company">
-                <span>${job.companies? job.companies.name : 'N/A'}</span> - <span>${job.location}</span>
+                <span>${companyLink}</span> - <span>${job.location}</span>
             </div>
             <p class="job-summary">
-                ${job.job_summary_text}
+                ${job.job_summary_text || 'No summary available.'}
             </p>
             <div class="job-card-footer">
                 <span class="job-type">${job.job_type}</span>
@@ -56,26 +60,21 @@ async function loadJobs() {
 
 function startSlideshow() {
     const images = document.querySelectorAll('.hero-slideshow img');
-    if (images.length === 0) return; // Agar images na hon to function rok dein
+    if (images.length === 0) return; 
     
     let currentImageIndex = 0;
+    images[currentImageIndex].classList.add('active'); // Pehli image ko foran dikhana
 
     setInterval(() => {
-        // Maujooda image se 'active' class hatayein
         images[currentImageIndex].classList.remove('active');
-
-        // Agli image ka index set karein
         currentImageIndex = (currentImageIndex + 1) % images.length;
-
-        // Agli image par 'active' class lagayein
         images[currentImageIndex].classList.add('active');
-    }, 30000); // Har 30,000 milliseconds (30 seconds) mein image tabdeel karein
+    }, 5000); // Har 5 seconds mein image tabdeel karein
 }
 
 
 // ===== Hissa 4: Tamam Functions Ko Chalana =====
 
-// Jab poora page load ho jaye, to yeh dono functions chalayein
 document.addEventListener('DOMContentLoaded', () => {
     loadJobs();
     startSlideshow();
