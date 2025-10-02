@@ -1,8 +1,7 @@
 // ===== Hissa 1: Supabase se Connection Qayam Karna =====
 
-// Apni Supabase URL aur Key yahan paste karein.
-const supabaseUrl = 'YOUR_SUPABASE_URL'; // Yahan apni URL paste karein
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // Yahan apni anon key paste karein
+const supabaseUrl = 'YOUR_SUPABASE_URL'; // https://rtmhpqbvhdshyznpilaj.supabase.co
+const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0bWhwcWJ2aGRzaHl6bnBpbGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNTY1MzEsImV4cCI6MjA3NDczMjUzMX0.S8E_l1UdWI8VaXyk0v7gMAlZdT8LMUA3a6UybRd2j40
 
 // -- SAHI TAREEQA --
 const { createClient } = window.supabase;
@@ -13,10 +12,11 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function loadJobs() {
     const jobListings = document.querySelector('.job-listings');
+    if (!jobListings) return; // Agar job-listings div na ho to ruk jayein
 
     const { data: jobs, error } = await supabase
-     .from('jobs')
-     .select(`
+        .from('jobs')
+        .select(`
             *,
             companies ( name, logo_url )
         `);
@@ -26,22 +26,21 @@ async function loadJobs() {
         return;
     }
 
-    jobListings.innerHTML = '<h2>Featured Jobs</h2>'; 
+    jobListings.innerHTML = '<h2>Featured Jobs</h2>';
 
     jobs.forEach(job => {
         const jobCard = document.createElement('article');
         jobCard.classList.add('job-card');
 
         const companyName = job.companies ? job.companies.name : 'N/A';
-        const companyLink = `<a href="#">${companyName}</a>`; // Placeholder link
-
+        
         jobCard.innerHTML = `
             <div class="job-card-header">
                 <h3>${job.title}</h3>
                 <span class="match-score">95% Match</span>
             </div>
             <div class="job-card-company">
-                <span>${companyLink}</span> - <span>${job.location}</span>
+                <span>${companyName}</span> - <span>${job.location}</span>
             </div>
             <p class="job-summary">
                 ${job.job_summary_text || 'No summary available.'}
@@ -56,26 +55,45 @@ async function loadJobs() {
     });
 }
 
-// ===== NAYA HISSA 3: Background Image Slideshow Ka Jadoo =====
+// ===== Hissa 3: Background Image Slideshow =====
 
 function startSlideshow() {
     const images = document.querySelectorAll('.hero-slideshow img');
-    if (images.length === 0) return; 
+    if (images.length === 0) return;
     
     let currentImageIndex = 0;
-    images[currentImageIndex].classList.add('active'); // Pehli image ko foran dikhana
+    images[currentImageIndex].classList.add('active');
 
     setInterval(() => {
         images[currentImageIndex].classList.remove('active');
         currentImageIndex = (currentImageIndex + 1) % images.length;
         images[currentImageIndex].classList.add('active');
-    }, 5000); // Har 5 seconds mein image tabdeel karein
+    }, 5000); 
 }
 
+// ===== NAYA HISSA 4: Filter Tabs Ka Jadoo =====
+function setupFilterTabs() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const filterSections = document.querySelectorAll('.filter-section');
 
-// ===== Hissa 4: Tamam Functions Ko Chalana =====
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            filterSections.forEach(sec => sec.classList.remove('active'));
 
+            button.classList.add('active');
+
+            const filterToShow = document.getElementById(button.dataset.filter + '-filters');
+            if (filterToShow) {
+                filterToShow.classList.add('active');
+            }
+        });
+    });
+}
+
+// ===== Hissa 5: Tamam Functions Ko Chalana =====
 document.addEventListener('DOMContentLoaded', () => {
     loadJobs();
     startSlideshow();
+    setupFilterTabs();
 });
