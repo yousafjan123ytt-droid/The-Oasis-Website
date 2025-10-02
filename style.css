@@ -10,7 +10,9 @@
     --border-color: #dee2e6;
 }
 
-* { box-sizing: border-box; }
+* { 
+    box-sizing: border-box; 
+}
 
 body {
     font-family: 'Inter', sans-serif;
@@ -18,13 +20,13 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
-    display: flex; /* FOOTER FIX */
-    flex-direction: column; /* FOOTER FIX */
-    min-height: 100vh; /* FOOTER FIX */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 main {
-    flex-grow: 1; /* FOOTER FIX: Allows main content to grow and push footer down */
+    flex-grow: 1;
 }
 
 .container {
@@ -44,7 +46,8 @@ main {
     backdrop-filter: blur(10px);
 }
 
-.main-header.container {
+/* --- FIX: Corrected Selector (space added) --- */
+.main-header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -248,7 +251,7 @@ main {
     margin-bottom: 8px;
 }
 
-.filter-group select,.filter-group input {
+.filter-group select, .filter-group input {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
@@ -256,7 +259,7 @@ main {
     font-size: 14px;
 }
 
-.job-listings h2,.user-dashboard h4 {
+.job-listings h2, .user-dashboard h4 {
     font-size: 24px;
     color: var(--heading-color);
     margin-bottom: 20px;
@@ -289,6 +292,22 @@ main {
     font-size: 20px;
 }
 
+.match-score {
+    background-color: #d1e7dd; /* Light green */
+    color: #0f5132; /* Dark green */
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.job-card-company {
+    margin: 10px 0;
+    font-weight: 500;
+    color: #6c757d;
+}
+
 .job-card-company a {
     color: var(--primary-color);
     text-decoration: none;
@@ -296,4 +315,115 @@ main {
 }
 .job-card-company a:hover { text-decoration: underline; }
 
-/*... (rest of the CSS code from previous response)... */
+.job-summary {
+    color: var(--text-color);
+}
+
+.job-card-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.job-type {
+    background-color: #e9ecef;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.details-btn {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 700;
+    padding: 8px 16px;
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.details-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* ===== Redesigned Dashboard ===== */
+.user-dashboard h4 {
+    text-align: center;
+}
+
+.dashboard-widget {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.dashboard-widget h5 {
+    margin-top: 0;
+    color: var(--heading-color);
+}
+
+.score-visual {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin: 10px 0;
+}
+
+.dashboard-widget p a {
+    color: var(--primary-color);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* ===== Footer ===== */
+.main-footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 50px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--card-background);
+}
+
+/* ===== Mobile Responsiveness ===== */
+@media (max-width: 992px) {
+    .content-area {
+        grid-template-columns: 1fr 2fr; /* Sidebar aur content ko 2-column banayein */
+        gap: 20px;
+    }
+    .user-dashboard {
+        grid-column: 1 / -1; /* Dashboard ko poori width dein */
+        grid-row: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-area {
+        grid-template-columns: 1fr; /* Sab kuch ek column mein */
+    }
+    .search-bar {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .main-header .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .main-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    .main-nav a {
+        margin-left: 0;
+    }
+    .hero-section h1 {
+        font-size: 36px;
+    }
+}
