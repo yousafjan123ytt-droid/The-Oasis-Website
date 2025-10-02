@@ -1,261 +1,140 @@
-// ===== HISSA 1: SUPABASE SE CONNECTION QAYAM KARNA =====
+// ===== HISSA 1: SETUP AUR CONFIGURATION =====
 
+// Apni Supabase URL aur ANON key yahan quotes ke andar paste karein.
+const supabaseUrl = ' https://rtmhpqbvhdshyznpilaj.supabase.co';
+const supabaseKey = ' eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0bWhwcWJ2aGRzaHl6bnBpbGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNTY1MzEsImV4cCI6MjA3NDczMjUzMX0.S8E_l1UdWI8VaXyk0v7gMAlZdT8LMUA3a6UybRd2j40';
 
-const supabaseUrl = 'YOUR_SUPABASE_URL';      //https://rtmhpqbvhdshyznpilaj.supabase.co
+const { createClient } = window.supabase;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0bWhwcWJ2aGRzaHl6bnBpbGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNTY1MzEsImV4cCI6MjA3NDczMjUzMX0.S8E_l1UdWI8VaXyk0v7gMAlZdT8LMUA3a6UybRd2j40
-
-
-const { createClient } = supabase;
-
-const supabaseClient = createClient(supabaseUrl, supabaseKey);
-
-
-
-// ===== HISSA 2: TAMAM HTML ELEMENTS HASIL KARNA =====
-
-
-const searchBtn = document.querySelector('.search-btn');
-
-const searchTitleInput = document.getElementById('search-title');
-
-const searchLocationInput = document.getElementById('search-location');
-
+// HTML se tamam zaroori elements ko JavaScript mein lana
+const jobListingsContainer = document.querySelector('.job-listings');
+const searchButton = document.querySelector('.search-btn');
+const titleInput = document.getElementById('search-title');
+const locationInput = document.getElementById('search-location');
 const jobTypeFilter = document.getElementById('job-type');
-
-// Aap experience-level aur baaqi filters ko bhi yahan la sakte hain
-
-
-
-// ===== HISSA 3: DATABASE SE JOBS FETCH KARNA (SMART VERSION) =====
-
-
-async function loadJobs(filters = {}) {
-
-    const jobListings = document.querySelector('.job-listings');
-
-    if (!jobListings) return; // Agar element na ho to function rok dein
-
-    jobListings.innerHTML = '<h2><i class="fas fa-spinner fa-spin"></i> Searching for opportunities...</h2>';
+const experienceFilter = document.getElementById('experience-level');
+const salaryFilter = document.getElementById('salary-range');
+const salaryValueSpan = document.getElementById('salary-value');
+const tabButtons = document.querySelectorAll('.tab-btn');
+const filterSections = document.querySelectorAll('.filter-section');
+const slideshowImages = document.querySelectorAll('.hero-slideshow img');
 
 
-    let query = supabaseClient.from('jobs').select(`*, companies(name)`);
+// ===== HISSA 2: CORE FUNCTIONS (ASAL ENGINE) =====
 
+// Function: Database se jobs fetch karna aur dikhana
+async function loadJobs() {
+    console.log('Fetching jobs...');
+    jobListingsContainer.innerHTML = '<h2>Searching for opportunities...</h2>';
 
-    // Search filters
+    let query = supabase.from('jobs').select(`*, companies (id, name)`);
 
-    if (filters.title) {
-
-        query = query.ilike('title', `%${filters.title}%`);
-
+    // Filters lagana
+    const searchTerm = titleInput.value.trim();
+    if (searchTerm) {
+        query = query.ilike('title', `%${searchTerm}%`);
     }
-
-    if (filters.location) {
-
-        query = query.ilike('location', `%${filters.location}%`);
-
+    if (jobTypeFilter.value !== 'all') {
+        query = query.eq('job_type', jobTypeFilter.value);
     }
-
-
-    // Dropdown filters
-
-    if (filters.jobType && filters.jobType !== 'all') {
-
-        query = query.eq('job_type', filters.jobType);
-
-    }
-
-    // Aap yahan experience level ka filter bhi add kar sakte hain
-
 
     const { data: jobs, error } = await query;
 
-
     if (error) {
-
         console.error('Error fetching jobs:', error);
-
-        jobListings.innerHTML = '<h2><i class="fas fa-exclamation-circle"></i> Error loading jobs. Please try again.</h2>';
-
+        jobListingsContainer.innerHTML = '<h2>Error loading jobs.</h2>';
         return;
-
     }
 
+    jobListingsContainer.innerHTML = '<h2>Featured Opportunities</h2>';
 
     if (jobs.length === 0) {
-
-        jobListings.innerHTML = '<h2>No matching opportunities found.</h2>';
-
+        jobListingsContainer.innerHTML += '<p>No matching opportunities found.</p>';
         return;
-
     }
-
-
-    jobListings.innerHTML = ''; // Purane results saaf karein
-
 
     jobs.forEach(job => {
-
         const jobCard = document.createElement('article');
-
         jobCard.classList.add('job-card');
-
-
         const companyName = job.companies ? job.companies.name : 'N/A';
-
-        const summary = job.job_summary_text || 'No summary available.';
-
-
+        
         jobCard.innerHTML = `
-
             <div class="job-card-header">
-
-                <h3>${job.title}</h3>
-
-                <span class="match-score">95% Match</span>
-
+                <h3>${job.title || 'N/A'}</h3>
             </div>
-
             <div class="job-card-company">
-
-                <span>${companyName}</span> - <span>${job.location}</span>
-
+                <span>${companyName}</span> - <span>${job.location || 'N/A'}</span>
             </div>
-
-            <p class="job-summary">${summary}</p>
-
+            <p class="job-summary">
+                ${job.job_summary_text || 'No summary available.'}
+            </p>
             <div class="job-card-footer">
-
-                <span class="job-type">${job.job_type}</span>
-
+                <span class="job-type">${job.job_type || 'N/A'}</span>
                 <a href="${job.source_url}" target="_blank" class="details-btn">View Details</a>
-
             </div>
-
         `;
-
-        jobListings.appendChild(jobCard);
-
+        jobListingsContainer.appendChild(jobCard);
     });
-
 }
 
-
-// ===== HISSA 4: SLIDESHOW AUR FILTER TABS (YEH HISSA MISSING THA) =====
-
-
+// Function: Background slideshow chalana
 function startSlideshow() {
-
-    const images = document.querySelectorAll('.hero-slideshow img');
-
-    if (images.length === 0) return;
-
+    if (slideshowImages.length === 0) return;
     let currentImageIndex = 0;
-
-    images[currentImageIndex].classList.add('active');
-
+    slideshowImages[currentImageIndex].classList.add('active');
 
     setInterval(() => {
-
-        images[currentImageIndex].classList.remove('active');
-
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-
-        images[currentImageIndex].classList.add('active');
-
-    }, 5000); // Har 5 second baad image badle
-
+        slideshowImages[currentImageIndex].classList.remove('active');
+        currentImageIndex = (currentImageIndex + 1) % slideshowImages.length;
+        slideshowImages[currentImageIndex].classList.add('active');
+    }, 5000);
 }
 
-
+// Function: Filter tabs ki functionality set karna
 function setupFilterTabs() {
-
-    const tabButtons = document.querySelectorAll('.tab-btn');
-
-    const filterSections = document.querySelectorAll('.filter-section');
-
-
     tabButtons.forEach(button => {
-
         button.addEventListener('click', () => {
-
             tabButtons.forEach(btn => btn.classList.remove('active'));
-
             filterSections.forEach(sec => sec.classList.remove('active'));
-
-
             button.classList.add('active');
-
-            const filterId = button.dataset.filter + '-filters';
-
-            const filterToShow = document.getElementById(filterId);
-
-            
-
+            const filterToShow = document.getElementById(button.dataset.filter + '-filters');
             if (filterToShow) {
-
                 filterToShow.classList.add('active');
-
             }
-
         });
-
     });
-
 }
 
 
+// ===== HISSA 3: WEBSITE KO ZINDA KARNA (EVENT LISTENERS) =====
 
-// ===== HISSA 5: TAMAM FUNCTIONS KO ZINDA KARNA =====
-
-
-
+// Jab poora page load ho jaye, to tamam functions ko shuru karein
+document.addEventListener('DOMContentLoaded', () => {
     // Shuruaat mein tamam jobs load karein
-
     loadJobs();
-
     
+    // Background slideshow shuru karein
+    startSlideshow();
+    
+    // Filter tabs ka jadoo chalayein
+    setupFilterTabs();
 
-    // YEH LINES MISSING THEEN
+    // Search button par click karne ka intezar karein
+    searchButton.addEventListener('click', loadJobs);
 
-    startSlideshow();      // Slideshow shuru karein
+    // Dropdown filters ke tabdeel honay par jobs dobara load karein
+    jobType-filter.addEventListener('change', loadJobs);
+    experienceFilter.addEventListener('change', loadJobs);
 
-    setupFilterTabs();     // Taleem/KaamKaj ke tabs ko chalu karein
-
-
-    // Search button par click hone ka intezar karein
-
-    if (searchBtn) {
-
-        searchBtn.addEventListener('click', () => {
-
-            const filters = {
-
-                title: searchTitleInput.value,
-
-                location: searchLocationInput.value,
-
-                jobType: jobTypeFilter.value,
-
-            };
-
-            loadJobs(filters);
-
+    // Salary slider ki value ko update karein
+    if (salaryFilter && salaryValueSpan) {
+        salaryFilter.addEventListener('input', () => {
+            if (salaryFilter.value === '0') {
+                salaryValueSpan.textContent = 'Any Salary';
+            } else {
+                salaryValueSpan.textContent = `Up to PKR ${parseInt(salaryFilter.value).toLocaleString()}`;
+            }
         });
-
     }
-
-
-    // Filter dropdowns ke change hone par bhi search chalayein
-
-    if (jobTypeFilter) {
-
-        jobTypeFilter.addEventListener('change', () => {
-
-            searchBtn.click(); // Sirf search button ko dobara click kar dein
-
-        });
-
-    }
-
 });
