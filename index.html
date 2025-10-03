@@ -8,88 +8,76 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        /* Basic styling for tabs functionality */
-        .tab-content { display: none; }
-        .tab-content.active { display: flex; /* Use flex to keep your sidebar/main content layout */ }
-        .tabs-container {
-            display: flex;
-            justify-content: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #ddd;
-        }
-        .tab-btn {
-            padding: 10px 20px;
-            cursor: pointer;
-            border: none;
-            background-color: #f1f1f1;
-            margin: 0 5px;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .tab-btn.active {
-            background-color: #0052cc;
-            color: white;
-        }
-    </style>
 </head>
 <body>
-    
-    <div id="message-bar"></div>
-
+    <!-- ===== HEADER ===== -->
     <header class="main-header">
-        <div class="logo">KaamKaaj.com.pk</div>
-        <nav class="main-nav">
-            <div id="user-display" style="display: none;">
-                <span id="user-email"></span>
-                <button id="logout-btn">Logout</button>
-            </div>
-            <div id="auth-links">
-                <a href="login.html" class="nav-link">Login</a>
-                <a href="signup.html" class="nav-link btn-primary">Sign Up</a>
-            </div>
-        </nav>
+        <div class="container">
+            <a href="index.html" class="logo">KaamKaaj.com.pk</a>
+            <nav class="main-nav">
+                <a href="#jobs">Naukriyan</a>
+                <a href="#education">Dakhlay (Admissions)</a>
+                <a href="#education">Entry Tests</a>
+                <a href="#education">Scholarships</a>
+                <a href="#">Company Reviews</a> <!-- Yeh link add kar diya gaya hai -->
+                 <!-- User Authentication Links -->
+                <div id="auth-links">
+                    <a href="login.html" class="btn-primary">Login / Sign Up</a>
+                </div>
+                <!-- Logged-in User Display -->
+                <div id="user-display" style="display: none; align-items: center; gap: 15px;">
+                    <span id="user-email"></span>
+                    <button id="logout-btn" class="btn-primary">Logout</button>
+                </div>
+            </nav>
+        </div>
     </header>
 
     <main>
+        <!-- ===== HERO SECTION WITH SLIDESHOW ===== -->
         <section class="hero-section">
             <div class="hero-slideshow">
-                <!-- Updated Slideshow Images to reflect both Career and Education -->
-                <img src="https://placehold.co/1200x400/0052cc/ffffff?text=Apna+Mustaqbil+Yahan+Talaash+Karein" alt="Find your future banner" class="active">
-                <img src="https://placehold.co/1200x400/006400/ffffff?text=Explore+University+Admissions" alt="Education and admissions banner">
-                <img src="https://placehold.co/1200x400/8b0000/ffffff?text=Prepare+for+Your+Entry+Test" alt="Entry test preparation banner">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop" class="active" alt="Students learning">
+                <img src="https://images.unsplash.com/photo-1542744095-291d1f67b221?q=80&w=2070&auto=format&fit=crop" alt="Office presentation">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop" alt="Group of students studying">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" alt="Team meeting">
+                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop" alt="Collaborative work">
+                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop" alt="Man working on laptop">
+                <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop" alt="Team building activity">
+                <img src="https://images.unsplash.com/photo-1491975474562-1f4e30bc9468?q=80&w=1974&auto=format&fit=crop" alt="Student reading a book">
+                <img src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?q=80&w=2069&auto=format&fit=crop" alt="Professional woman in office">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop" alt="Business analytics">
             </div>
             <div class="hero-content">
-                <!-- Updated heading and search bar based on your images -->
                 <h1>Apna Mustaqbil Yahan Talaash Karein</h1>
-                <p>Pakistan's premier platform for jobs, admissions, entry tests, and scholarships.</p>
+                <p>Pakistan ka wahid platform jo aapko naukriyon, dakhlon, aur entry tests ki dunya se jorta hai.</p>
                 <div class="search-bar">
                     <input type="text" id="search-title" placeholder="Job title, University, Test...">
+                    <input type="text" id="search-location" placeholder="Sheher ya 'Ghar se kaam'">
                     <button class="search-btn">Talaash Karein</button>
                 </div>
             </div>
         </section>
 
-        <!-- Tabs for switching between Jobs and Education -->
-        <div class="tabs-container">
-            <button class="tab-btn active" data-tab="jobs-content">Jobs (Naukriyan)</button>
-            <button class="tab-btn" data-tab="education-content">Education (Taleem)</button>
-        </div>
-
-        <!-- Main content area now contains tabbed content -->
-        <div class="content-wrapper">
-            <!-- Jobs Content -->
-            <div id="jobs-content" class="content-area tab-content active">
-                <aside class="sidebar-filters">
-                    <h2>Filter Jobs</h2>
+        <!-- ===== MAIN CONTENT AREA ===== -->
+        <div class="content-area container">
+            <!-- Left Sidebar for Filters -->
+            <aside class="filters-sidebar">
+                <div class="filter-tabs">
+                    <button class="tab-btn active" data-tab="jobs-content">Jobs (Naukriyan)</button>
+                    <button class="tab-btn" data-tab="education-content">Taleem</button>
+                </div>
+                <!-- Jobs Filters -->
+                <div id="jobs-content" class="tab-content active">
+                    <h4>Job Filters</h4>
                     <div class="filter-group">
                         <label for="job-type">Job Type</label>
                         <select id="job-type">
                             <option value="all">All Types</option>
                             <option value="Full-time">Full-time</option>
                             <option value="Part-time">Part-time</option>
-                            <option value="Contract">Contract</option>
                             <option value="Internship">Internship</option>
+                            <option value="Remote">Remote</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -101,18 +89,10 @@
                             <option value="Senior-Level">Senior-Level</option>
                         </select>
                     </div>
-                </aside>
-                <section class="job-listings-section">
-                    <div class="job-listings">
-                        <h2>Loading opportunities...</h2>
-                    </div>
-                </section>
-            </div>
-            
-            <!-- Education Content -->
-            <div id="education-content" class="content-area tab-content">
-                <aside class="sidebar-filters">
-                    <h2>Filter Education</h2>
+                </div>
+                <!-- Education Filters -->
+                <div id="education-content" class="tab-content">
+                    <h4>Filter Education</h4>
                     <div class="filter-group">
                         <label for="edu-category">Category</label>
                         <select id="edu-category">
@@ -131,40 +111,50 @@
                             <option value="Islamabad">Islamabad</option>
                         </select>
                     </div>
-                </aside>
-                <section class="education-listings-section">
-                    <div class="education-listings">
-                        <h2>Select a category to see opportunities.</h2>
-                    </div>
-                </section>
-            </div>
+                </div>
+            </aside>
+
+            <!-- Center Content for Listings -->
+            <section class="listings-section">
+                <div class="job-listings">
+                    <!-- Job cards will be loaded here by script.js -->
+                </div>
+                 <div class="education-listings" style="display:none;">
+                    <!-- Education cards will be loaded here by script.js -->
+                </div>
+            </section>
+
+            <!-- Right Sidebar for User Dashboard -->
+            <aside class="user-dashboard">
+                <h4>Aapka Career Assistant</h4>
+                <div class="dashboard-widget">
+                    <h5>Resume Score</h5>
+                    <div class="score-visual">78%</div>
+                    <p>Aapka resume behtar ho sakta hai. <a href="#">Tips Dekhein</a></p>
+                </div>
+                <div class="dashboard-widget">
+                    <h5>Skills Ki Kami</h5>
+                    <p>Aap 'Project Manager' ke liye 90% tayyar hain. <a href="#">Agile</a> seekhein aur 100% tayyar ho jayein.</p>
+                </div>
+                <div class="dashboard-widget">
+                    <h5>Application Status</h5>
+                    <p>Aapki darkhwast <strong>Techlogix</strong> ne dekh li hai.</p>
+                </div>
+            </aside>
         </div>
     </main>
-
+    
+    <!-- ===== FOOTER ===== -->
     <footer class="main-footer">
-        <p>&copy; 2025 KaamKaaj.com.pk - All Rights Reserved.</p>
+        <p>&copy; 2025 KaamKaaj.com.pk. All rights reserved.</p>
     </footer>
 
+    <!-- Message Bar for notifications -->
+    <div id="message-bar"></div>
+    
+    <!-- Supabase and Main Script -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
-
-    <!-- Script for Tab Functionality -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    tabContents.forEach(content => content.classList.remove('active'));
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    button.classList.add('active');
-                    document.getElementById(button.dataset.tab).classList.add('active');
-                });
-            });
-        });
-    </script>
 </body>
 </html>
 
