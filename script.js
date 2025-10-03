@@ -1,140 +1,171 @@
-// ===== HISSA 1: SETUP AUR CONFIGURATION =====
-
-// Apni Supabase URL aur ANON key yahan quotes ke andar paste karein.
-const supabaseUrl = ' https://rtmhpqbvhdshyznpilaj.supabase.co';
-const supabaseKey = ' eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0bWhwcWJ2aGRzaHl6bnBpbGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNTY1MzEsImV4cCI6MjA3NDczMjUzMX0.S8E_l1UdWI8VaXyk0v7gMAlZdT8LMUA3a6UybRd2j40';
+// ===== HISSA 1: SUPABASE CONNECTION =====
+const supabaseUrl = 'https://rtmhpqbvhdshyznpilaj.supabase.co ';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0bWhwcWJ2aGRzaHl6bnBpbGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNTY1MzEsImV4cCI6MjA3NDczMjUzMX0.S8E_l1UdWI8VaXyk0v7gMAlZdT8LMUA3a6UybRd2j40 ';
 
 const { createClient } = window.supabase;
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-// HTML se tamam zaroori elements ko JavaScript mein lana
-const jobListingsContainer = document.querySelector('.job-listings');
-const searchButton = document.querySelector('.search-btn');
-const titleInput = document.getElementById('search-title');
-const locationInput = document.getElementById('search-location');
-const jobTypeFilter = document.getElementById('job-type');
-const experienceFilter = document.getElementById('experience-level');
-const salaryFilter = document.getElementById('salary-range');
-const salaryValueSpan = document.getElementById('salary-value');
-const tabButtons = document.querySelectorAll('.tab-btn');
-const filterSections = document.querySelectorAll('.filter-section');
-const slideshowImages = document.querySelectorAll('.hero-slideshow img');
+const db = createClient(supabaseUrl, supabaseKey);
 
 
-// ===== HISSA 2: CORE FUNCTIONS (ASAL ENGINE) =====
+// ===== HISSA 2: ELEMENTS =====
+const searchBtn = document.querySelector('.search-btn');
+const searchTitleInput = document.getElementById('search-title') || { value: '' };
+const searchLocationInput = document.getElementById('search-location') || { value: '' };
 
-// Function: Database se jobs fetch karna aur dikhana
-async function loadJobs() {
-    console.log('Fetching jobs...');
-    jobListingsContainer.innerHTML = '<h2>Searching for opportunities...</h2>';
+const jobTypeFilter = document.getElementById('job-type') || { value: 'all' };
+const experienceFilter = document.getElementById('experience-level') || { value: 'all' };
+const salaryFilter = document.getElementById('salary-range') || { value: '0' };
+const salaryValue = document.getElementById('salary-value');
 
-    let query = supabase.from('jobs').select(`*, companies (id, name)`);
 
-    // Filters lagana
-    const searchTerm = titleInput.value.trim();
-    if (searchTerm) {
-        query = query.ilike('title', `%${searchTerm}%`);
-    }
-    if (jobTypeFilter.value !== 'all') {
-        query = query.eq('job_type', jobTypeFilter.value);
-    }
+// ===== HISSA 3: JOBS LOAD FUNCTION (WITH DEEP SEARCH) =====
+async function loadJobs(filters = {}) {
+    const jobListings = document.querySelector('.job-listings');
+    jobListings.innerHTML = '<div class="loader">Loading jobs...</div>'; // loader
 
-    const { data: jobs, error } = await query;
+    let query = db
+        .from('jobs')
+        .select(`
+            *,
+            companies ( id, name, website_url )
+        `);
 
-    if (error) {
-        console.error('Error fetching jobs:', error);
-        jobListingsContainer.innerHTML = '<h2>Error loading jobs.</h2>';
-        return;
-    }
+    // Deep search across title + summary + location
+    if (filters.title) {
+        query = query.or(
+            `title.ilike.%${filters.title}%,job_summary_text.ilike.%${filters.title}%,location.ilike.%${filters.title}%`
+        );
+    }
 
-    jobListingsContainer.innerHTML = '<h2>Featured Opportunities</h2>';
+    if (filters.location) {
+        query = query.ilike('location', `%${filters.location}%`);
+    }
 
-    if (jobs.length === 0) {
-        jobListingsContainer.innerHTML += '<p>No matching opportunities found.</p>';
-        return;
-    }
+    if (filters.jobType && filters.jobType !== 'all') {
+        query = query.eq('job_type', filters.jobType);
+    }
 
-    jobs.forEach(job => {
-        const jobCard = document.createElement('article');
-        jobCard.classList.add('job-card');
-        const companyName = job.companies ? job.companies.name : 'N/A';
-        
-        jobCard.innerHTML = `
-            <div class="job-card-header">
-                <h3>${job.title || 'N/A'}</h3>
-            </div>
-            <div class="job-card-company">
-                <span>${companyName}</span> - <span>${job.location || 'N/A'}</span>
-            </div>
-            <p class="job-summary">
-                ${job.job_summary_text || 'No summary available.'}
-            </p>
-            <div class="job-card-footer">
-                <span class="job-type">${job.job_type || 'N/A'}</span>
-                <a href="${job.source_url}" target="_blank" class="details-btn">View Details</a>
-            </div>
-        `;
-        jobListingsContainer.appendChild(jobCard);
-    });
-}
+    if (filters.experience && filters.experience !== 'all') {
+        query = query.eq('experience_level', filters.experience);
+    }
 
-// Function: Background slideshow chalana
-function startSlideshow() {
-    if (slideshowImages.length === 0) return;
-    let currentImageIndex = 0;
-    slideshowImages[currentImageIndex].classList.add('active');
+    if (filters.salary && filters.salary !== '0') {
+        query = query.lte('salary', filters.salary);
+    }
 
-    setInterval(() => {
-        slideshowImages[currentImageIndex].classList.remove('active');
-        currentImageIndex = (currentImageIndex + 1) % slideshowImages.length;
-        slideshowImages[currentImageIndex].classList.add('active');
-    }, 5000);
-}
+    const { data: jobs, error } = await query;
 
-// Function: Filter tabs ki functionality set karna
-function setupFilterTabs() {
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            filterSections.forEach(sec => sec.classList.remove('active'));
-            button.classList.add('active');
-            const filterToShow = document.getElementById(button.dataset.filter + '-filters');
-            if (filterToShow) {
-                filterToShow.classList.add('active');
-            }
-        });
-    });
+    if (error) {
+        console.error('Error fetching jobs:', error);
+        jobListings.innerHTML = '<h2 style="color:red;">Error loading jobs. Please try again.</h2>';
+        return;
+    }
+
+    if (!jobs || jobs.length === 0) {
+        jobListings.innerHTML = '<h2>No jobs found. Try different filters.</h2>';
+        return;
+    }
+
+    jobListings.innerHTML = `<h2>${jobs.length} Jobs Found</h2>`;
+
+    jobs.forEach(job => {
+        const jobCard = document.createElement('article');
+        jobCard.classList.add('job-card');
+
+        const companyName = job.companies?.[0]?.name || job.companies?.name || 'N/A';
+        const companyUrl = job.companies?.[0]?.website_url || job.companies?.website_url || '#';
+        const companyLink = `<a href="${companyUrl}" target="_blank">${companyName}</a>`;
+
+        // Dynamic Match Score (basic logic: more filters matched → higher score)
+        let score = 50;
+        if (filters.title && job.title?.toLowerCase().includes(filters.title.toLowerCase())) score += 20;
+        if (filters.location && job.location?.toLowerCase().includes(filters.location.toLowerCase())) score += 15;
+        if (filters.jobType && filters.jobType === job.job_type) score += 15;
+
+        jobCard.innerHTML = `
+            <div class="job-card-header">
+                <h3>${job.title}</h3>
+                <span class="match-score">${score}% Match</span>
+            </div>
+            <div class="job-card-company">
+                <span>${companyLink}</span> - <span>${job.location}</span>
+            </div>
+            <p class="job-summary">
+                ${job.job_summary_text || 'No summary available.'}
+            </p>
+            <div class="job-card-footer">
+                <span class="job-type">${job.job_type}</span>
+                <a href="${job.source_url}" target="_blank" class="details-btn">View Details</a>
+            </div>
+        `;
+        jobListings.appendChild(jobCard);
+    });
 }
 
 
-// ===== HISSA 3: WEBSITE KO ZINDA KARNA (EVENT LISTENERS) =====
-
-// Jab poora page load ho jaye, to tamam functions ko shuru karein
+// ===== HISSA 4: EVENTS =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Shuruaat mein tamam jobs load karein
-    loadJobs();
-    
-    // Background slideshow shuru karein
-    startSlideshow();
-    
-    // Filter tabs ka jadoo chalayein
-    setupFilterTabs();
+    loadJobs();
 
-    // Search button par click karne ka intezar karein
-    searchButton.addEventListener('click', loadJobs);
+    startSlideshow();
+    setupFilterTabs();
 
-    // Dropdown filters ke tabdeel honay par jobs dobara load karein
-    jobType-filter.addEventListener('change', loadJobs);
-    experienceFilter.addEventListener('change', loadJobs);
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+            const filters = {
+                title: searchTitleInput.value,
+                location: searchLocationInput.value,
+                jobType: jobTypeFilter.value,
+                experience: experienceFilter.value,
+                salary: salaryFilter.value
+            };
+            loadJobs(filters);
+        });
+    }
 
-    // Salary slider ki value ko update karein
-    if (salaryFilter && salaryValueSpan) {
-        salaryFilter.addEventListener('input', () => {
-            if (salaryFilter.value === '0') {
-                salaryValueSpan.textContent = 'Any Salary';
-            } else {
-                salaryValueSpan.textContent = `Up to PKR ${parseInt(salaryFilter.value).toLocaleString()}`;
-            }
-        });
-    }
+    // Enter key search support
+    [searchTitleInput, searchLocationInput].forEach(input => {
+        if (input && input.addEventListener) {
+            input.addEventListener('keypress', e => {
+                if (e.key === 'Enter') searchBtn.click();
+            });
+        }
+    });
+
+    if (salaryFilter && salaryValue) {
+        salaryFilter.addEventListener('input', () => {
+            salaryValue.textContent =
+                salaryFilter.value === '0'
+                    ? 'Any Salary'
+                    : `Up to PKR ${parseInt(salaryFilter.value).toLocaleString()}`;
+        });
+    }
 });
+
+
+// ===== HISSA 5: SLIDESHOW & TABS =====
+function startSlideshow() {
+    const images = document.querySelectorAll('.hero-slideshow img');
+    if (images.length === 0) return;
+    let currentImageIndex = 0;
+    setInterval(() => {
+        images[currentImageIndex].classList.remove('active');
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        images[currentImageIndex].classList.add('active');
+    }, 10000);
+}
+
+function setupFilterTabs() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const filterSections = document.querySelectorAll('.filter-section');
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            filterSections.forEach(sec => sec.classList.remove('active'));
+            button.classList.add('active');
+            const filterToShow = document.getElementById(button.dataset.filter + '-filters');
+            if (filterToShow) {
+                filterToShow.classList.add('active');
+            }
+        });
+    });
+}
