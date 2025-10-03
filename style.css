@@ -29,6 +29,7 @@ main {
     flex-grow: 1;
 }
 
+/* This is a general container, but specific containers in header/etc. might need adjustments */
 .container {
     width: 90%;
     max-width: 1200px;
@@ -46,7 +47,7 @@ main {
     backdrop-filter: blur(10px);
 }
 
-/* --- FIX: Corrected Selector (space added) --- */
+/* This targets the .container specifically inside the .main-header */
 .main-header .container {
     display: flex;
     justify-content: space-between;
@@ -70,15 +71,20 @@ main {
 
 .main-nav a:hover { color: var(--primary-color); }
 
-.login-btn {
+/* Used for Sign Up / Login buttons in nav */
+.btn-primary {
     background-color: var(--primary-color);
-    color: white!important;
+    color: white !important; /* Use important to override other link styles */
     padding: 10px 20px;
     border-radius: 8px;
     transition: background-color 0.3s ease;
 }
 
-.login-btn:hover { background-color: #0b5ed7; }
+.btn-primary:hover { 
+    background-color: #0b5ed7; 
+    color: white !important;
+}
+
 
 /* ===== Engaging Hero Section with Slideshow ===== */
 .hero-section {
@@ -86,7 +92,6 @@ main {
     text-align: center;
     padding: 80px 20px;
     color: white;
-    border-radius: 0 0 20px 20px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -131,6 +136,7 @@ main {
 .hero-content {
     position: relative;
     z-index: 3;
+    max-width: 800px;
 }
 
 @keyframes zoom {
@@ -187,18 +193,16 @@ main {
 
 /* ===== Content Area ===== */
 .content-area {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1.5fr;
+    display: flex; /* Changed to flex for better responsiveness */
     gap: 30px;
     margin-top: 50px;
+    width: 100%;
+    padding: 0 5%; /* Add some padding on the sides */
 }
 
-.job-listings { grid-column: 2 / 3; }
-.user-dashboard { grid-column: 3 / 4; }
-
-/* ===== NEW: Filters Sidebar Styling ===== */
-.filters-sidebar {
-    grid-column: 1 / 2;
+.sidebar-filters {
+    flex: 1;
+    min-width: 250px; /* Minimum width for sidebar */
     background-color: var(--card-background);
     padding: 20px;
     border-radius: 12px;
@@ -206,41 +210,16 @@ main {
     height: fit-content;
 }
 
-.filter-tabs {
-    display: flex;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
+.job-listings-section, .education-listings-section {
+    flex: 3; /* Takes up more space */
 }
 
-.tab-btn {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    font-weight: 500;
-    color: var(--text-color);
-    border-bottom: 3px solid transparent;
-}
-
-.tab-btn.active {
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
-}
-
-.filter-section {
-    display: none;
-}
-
-.filter-section.active {
-    display: block;
-}
-
-.filters-sidebar h4 {
-    margin-top: 0;
-    font-size: 20px;
+/* Common styles for cards */
+.job-listings h2, .education-listings h2 {
+    font-size: 24px;
     color: var(--heading-color);
     margin-bottom: 20px;
+    margin-top: 0;
 }
 
 .filter-group { margin-bottom: 20px; }
@@ -257,16 +236,11 @@ main {
     border-radius: 5px;
     border: 1px solid var(--border-color);
     font-size: 14px;
+    background-color: #fff;
 }
 
-.job-listings h2, .user-dashboard h4 {
-    font-size: 24px;
-    color: var(--heading-color);
-    margin-bottom: 20px;
-}
-
-/* ===== Redesigned Job Card ===== */
-.job-card {
+/* ===== Redesigned Job & Education Cards ===== */
+.job-card, .edu-card {
     background-color: var(--card-background);
     border: 1px solid var(--border-color);
     border-radius: 12px;
@@ -275,34 +249,24 @@ main {
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.job-card:hover {
+.job-card:hover, .edu-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
 }
 
-.job-card-header {
+.job-card-header, .edu-card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 }
 
-.job-card-header h3 {
+.job-card-header h3, .edu-card-header h3 {
     margin: 0;
     color: var(--heading-color);
     font-size: 20px;
 }
 
-.match-score {
-    background-color: #d1e7dd; /* Light green */
-    color: #0f5132; /* Dark green */
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-    flex-shrink: 0;
-}
-
-.job-card-company {
+.job-card-company, .edu-card-institution {
     margin: 10px 0;
     font-weight: 500;
     color: #6c757d;
@@ -315,23 +279,26 @@ main {
 }
 .job-card-company a:hover { text-decoration: underline; }
 
-.job-summary {
+.job-summary, .edu-summary {
     color: var(--text-color);
 }
 
-.job-card-footer {
+.job-card-footer, .edu-card-footer {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 14px;
+    color: #6c757d;
 }
 
-.job-type {
+.job-type, .edu-category {
     background-color: #e9ecef;
     padding: 6px 12px;
     border-radius: 5px;
     font-size: 12px;
     font-weight: 500;
+    color: var(--heading-color);
 }
 
 .details-btn {
@@ -349,38 +316,6 @@ main {
     color: white;
 }
 
-/* ===== Redesigned Dashboard ===== */
-.user-dashboard h4 {
-    text-align: center;
-}
-
-.dashboard-widget {
-    background-color: var(--card-background);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.dashboard-widget h5 {
-    margin-top: 0;
-    color: var(--heading-color);
-}
-
-.score-visual {
-    font-size: 42px;
-    font-weight: 700;
-    color: var(--secondary-color);
-    margin: 10px 0;
-}
-
-.dashboard-widget p a {
-    color: var(--primary-color);
-    font-weight: 500;
-    text-decoration: none;
-}
-
 /* ===== Footer ===== */
 .main-footer {
     text-align: center;
@@ -390,22 +325,98 @@ main {
     background-color: var(--card-background);
 }
 
+/* ===== Message Bar ===== */
+#message-bar {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 25px;
+    border-radius: 8px;
+    color: white;
+    z-index: 2000;
+    display: none;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+#message-bar.success { background-color: var(--secondary-color); }
+#message-bar.error { background-color: #dc3545; }
+
+
+/* ===== Auth Page (Login/Sign Up) Styles ===== */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    padding: 20px;
+}
+.auth-form {
+    background: var(--card-background);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+.auth-form h1 {
+    color: var(--heading-color);
+    margin-bottom: 20px;
+}
+.auth-form .form-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+.auth-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.auth-form input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 16px;
+}
+.auth-form button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.auth-form button:hover {
+    background-color: #0b5ed7;
+}
+.auth-form button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+.auth-form .switch-link {
+    margin-top: 20px;
+}
+.auth-form .switch-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+
 /* ===== Mobile Responsiveness ===== */
 @media (max-width: 992px) {
     .content-area {
-        grid-template-columns: 1fr 2fr; /* Sidebar aur content ko 2-column banayein */
-        gap: 20px;
-    }
-    .user-dashboard {
-        grid-column: 1 / -1; /* Dashboard ko poori width dein */
-        grid-row: 2;
+        flex-direction: column;
     }
 }
 
 @media (max-width: 768px) {
-    .content-area {
-        grid-template-columns: 1fr; /* Sab kuch ek column mein */
-    }
     .search-bar {
         flex-direction: column;
         padding: 20px;

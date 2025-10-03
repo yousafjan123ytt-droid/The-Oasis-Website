@@ -1,60 +1,35 @@
-// Supabase Connection
-const supabaseUrl = 'https://rtmhpqbvhdshyznpilaj.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0bWhwcWJ2aGRzaHl6bnBpbGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNTY1MzEsImV4cCI6MjA3NDczMjUzMX0.S8E_l1UdWI8VaXyk0v7gMAlZdT8LMUA3a6UybRd2j40';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - KaamKaaj.com.pk</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Yeh message bar aapke script.js mein mojood showMessage function ke liye zaroori hai -->
+    <div id="message-bar"></div>
 
-const { createClient } = window.supabase;
-const supabase = createClient(supabaseUrl, supabaseKey);
+    <div class="auth-container">
+        <h1>Login to Your Account</h1>
+        <form id="login-form" class="auth-form">
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+        <p class="form-switch">
+            Don't have an account? <a href="signup.html">Sign Up</a>
+        </p>
+    </div>
 
-// DOM Elements
-const signupForm = document.getElementById('signup-form');
-const loginForm = document.getElementById('login-form');
-
-// === SIGNUP LOGIC ===
-if (signupForm) {
-  signupForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const email = document.getElementById('signup-email').value.trim();
-    const password = document.getElementById('signup-password').value.trim();
-
-    if (password.length < 6) {
-      alert("Password must be at least 6 characters long.");
-      return;
-    }
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
-      console.error("Signup Error:", error);
-      alert('Error signing up: ' + error.message);
-    } else {
-      console.log("Signup Success:", data);
-      alert('Signup successful! Please check your email for confirmation.');
-      window.location.href = "login.html"; // Redirect to login
-    }
-  });
-}
-
-// === LOGIN LOGIC ===
-if (loginForm) {
-  loginForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const email = document.getElementById('login-email').value.trim();
-    const password = document.getElementById('login-password').value.trim();
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      console.error("Login Error:", error);
-      alert('Error logging in: ' + error.message);
-    } else {
-      console.log("Login Success:", data);
-      window.location.href = 'index.html'; // Redirect to homepage
-    }
-  });
-}
+    <!-- Supabase aur aapki custom script file -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
