@@ -3,33 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - KaamKaaj.com.pk</title>
+    <title>Login - KaamKaaj.pk</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Yeh message bar aapke script.js mein mojood showMessage function ke liye zaroori hai -->
-    <div id="message-bar"></div>
+    <!-- ===== SIMPLIFIED HEADER ===== -->
+    <header class="simple-header">
+        <div class="container">
+            <a href="index.html" class="logo">KaamKaaj.pk</a>
+        </div>
+    </header>
 
-    <div class="auth-container">
-        <h1>Login to Your Account</h1>
-        <form id="login-form" class="auth-form">
-            <div class="form-group">
-                <label for="login-email">Email</label>
-                <input type="email" id="login-email" placeholder="Enter your email" required>
+    <main>
+        <div class="auth-container">
+            <div class="auth-form-card">
+                <h2>Khush Aamdeed!</h2>
+                <p class="auth-subtitle">Apne account mein login karein.</p>
+                <form>
+                    <div class="input-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="aapka.email@example.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    </div>
+                    <a href="#" class="forgot-password">Password bhool gaye?</a>
+                    <button type="submit" class="btn-primary auth-btn">Login Karein</button>
+                </form>
+                <p class="auth-switch">
+                    Aapka account nahi hai? <a href="signup.html">Yahan Sign Up Karein</a>
+                </p>
             </div>
-            <div class="form-group">
-                <label for="login-password">Password</label>
-                <input type="password" id="login-password" placeholder="Enter your password" required>
-            </div>
-            <button type="submit" class="submit-btn">Login</button>
-        </form>
-        <p class="form-switch">
-            Don't have an account? <a href="signup.html">Sign Up</a>
-        </p>
-    </div>
+        </div>
+    </main>
 
-    <!-- Supabase aur aapki custom script file -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js"></script>
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 KaamKaaj.pk. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

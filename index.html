@@ -3,157 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KaamKaaj.com.pk - Pakistan's Premier Career & Education Portal</title>
+    <title>KaamKaaj.com.pk - Apna Mustaqbil Yahan Talaash Karein</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- ===== HEADER ===== -->
     <header class="main-header">
         <div class="container">
-            <a href="index.html" class="logo">KaamKaaj.com.pk</a>
+            <a href="index.html" class="logo">KaamKaaj.pk</a>
             <nav class="main-nav">
                 <a href="#jobs">Naukriyan</a>
-                <a href="#education">Dakhlay (Admissions)</a>
-                <a href="#education">Entry Tests</a>
-                <a href="#education">Scholarships</a>
-                <a href="#">Company Reviews</a> <!-- Yeh link add kar diya gaya hai -->
-                 <!-- User Authentication Links -->
-                <div id="auth-links">
-                    <a href="login.html" class="btn-primary">Login / Sign Up</a>
+                <!-- TALEEM DROPDOWN START -->
+                <div class="dropdown">
+                    <a href="#education" class="dropdown-toggle">Taleem ▼</a>
+                    <div class="dropdown-content">
+                        <a href="#admissions">Admissions</a>
+                        <a href="#scholarships">Scholarships</a>
+                        <a href="#entry-tests">Entry Tests</a>
+                    </div>
                 </div>
-                <!-- Logged-in User Display -->
-                <div id="user-display" style="display: none; align-items: center; gap: 15px;">
-                    <span id="user-email"></span>
-                    <button id="logout-btn" class="btn-primary">Logout</button>
+                <!-- TALEEM DROPDOWN END -->
+                <a href="#">Company Reviews</a>
+                <a href="#">Career Advice</a>
+                <div id="auth-links">
+                    <a href="#" class="btn-secondary">Login</a>
+                    <a href="#" class="btn-primary">Sign Up</a>
                 </div>
             </nav>
+            <button class="mobile-nav-toggle" aria-label="Menu">☰</button>
         </div>
     </header>
 
     <main>
-        <!-- ===== HERO SECTION WITH SLIDESHOW ===== -->
+        <!-- ===== HERO SECTION ===== -->
         <section class="hero-section">
             <div class="hero-slideshow">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop" class="active" alt="Students learning">
-                <img src="https://images.unsplash.com/photo-1542744095-291d1f67b221?q=80&w=2070&auto=format&fit=crop" alt="Office presentation">
-                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop" alt="Group of students studying">
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" alt="Team meeting">
-                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop" alt="Collaborative work">
-                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop" alt="Man working on laptop">
-                <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop" alt="Team building activity">
-                <img src="https://images.unsplash.com/photo-1491975474562-1f4e30bc9468?q=80&w=1974&auto=format&fit=crop" alt="Student reading a book">
-                <img src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?q=80&w=2069&auto=format&fit=crop" alt="Professional woman in office">
-                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop" alt="Business analytics">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop" class="active" alt="Students collaborating on laptops">
+                <img src="https://images.unsplash.com/photo-1542744095-291d1f67b221?q=80&w=2070&auto=format&fit=crop" alt="Professional office meeting">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop" alt="Happy students working together">
             </div>
             <div class="hero-content">
-                <h1>Apna Mustaqbil Yahan Talaash Karein</h1>
-                <p>Pakistan ka wahid platform jo aapko naukriyon, dakhlon, aur entry tests ki dunya se jorta hai.</p>
+                <h1>Apna Mustaqbil. Aapke Ikhtiyar Mein.</h1>
+                <p>Pakistan ka sab se pasandeeda platform naukriyon, dakhlon, aur scholarships ke liye.</p>
                 <div class="search-bar">
-                    <input type="text" id="search-title" placeholder="Job title, University, Test...">
-                    <input type="text" id="search-location" placeholder="Sheher ya 'Ghar se kaam'">
+                    <input type="text" id="search-title" placeholder="Job Title, University, Skill...">
+                    <input type="text" id="search-location" placeholder="Sheher (e.g. Karachi)">
                     <button class="search-btn">Talaash Karein</button>
                 </div>
+            </div>
+        </section>
+        
+        <!-- ===== CATEGORIES SECTION ===== -->
+        <section class="categories-section container">
+            <h2>Mash'hoor Categories</h2>
+            <div class="category-grid">
+                <div class="category-card">Govt. Jobs</div>
+                <div class="category-card">Software & IT</div>
+                <div class="category-card">Scholarships</div>
+                <div class="category-card">University Admissions</div>
+                <div class="category-card">Online Work</div>
+                <div class="category-card">Medical</div>
             </div>
         </section>
 
         <!-- ===== MAIN CONTENT AREA ===== -->
         <div class="content-area container">
-            <!-- Left Sidebar for Filters -->
+            
+            <!-- Column 1: Filters Sidebar -->
             <aside class="filters-sidebar">
                 <div class="filter-tabs">
-                    <button class="tab-btn active" data-tab="jobs-content">Jobs (Naukriyan)</button>
-                    <button class="tab-btn" data-tab="education-content">Taleem</button>
+                    <button class="tab-btn active" data-tab="jobs">Naukriyan</button>
+                    <button class="tab-btn" data-tab="education">Taleem</button>
                 </div>
-                <!-- Jobs Filters -->
-                <div id="jobs-content" class="tab-content active">
-                    <h4>Job Filters</h4>
+                <div id="jobs-filters" class="filter-content active">
+                    <h4>Jobs Filter Karein</h4>
                     <div class="filter-group">
                         <label for="job-type">Job Type</label>
                         <select id="job-type">
-                            <option value="all">All Types</option>
+                            <option value="all">Tamam</option>
                             <option value="Full-time">Full-time</option>
                             <option value="Part-time">Part-time</option>
-                            <option value="Internship">Internship</option>
                             <option value="Remote">Remote</option>
+                            <option value="Internship">Internship</option>
                         </select>
                     </div>
                     <div class="filter-group">
                         <label for="experience-level">Experience Level</label>
                         <select id="experience-level">
-                            <option value="all">All Levels</option>
-                            <option value="Entry-Level">Entry-Level</option>
-                            <option value="Mid-Level">Mid-Level</option>
-                            <option value="Senior-Level">Senior-Level</option>
+                            <option value="all">Tamam</option>
+                            <option value="Entry-Level">Naya Tajurba</option>
+                            <option value="Mid-Level">Darmiyana Tajurba</option>
+                            <option value="Senior-Level">Senior Tajurba</option>
                         </select>
                     </div>
                 </div>
-                <!-- Education Filters -->
-                <div id="education-content" class="tab-content">
-                    <h4>Filter Education</h4>
+                <div id="education-filters" class="filter-content">
+                    <h4>Taleem Filter Karein</h4>
                     <div class="filter-group">
                         <label for="edu-category">Category</label>
                         <select id="edu-category">
-                            <option value="all">All Categories</option>
-                            <option value="Admissions">Admissions</option>
+                            <option value="all">Tamam</option>
+                            <option value="Admissions">Dakhlay</option>
                             <option value="Scholarships">Scholarships</option>
-                            <option value="Entry Tests">Entry Tests</option>
-                        </select>
-                    </div>
-                     <div class="filter-group">
-                        <label for="edu-city">City</label>
-                        <select id="edu-city">
-                            <option value="all">All Cities</option>
-                            <option value="Karachi">Karachi</option>
-                            <option value="Lahore">Lahore</option>
-                            <option value="Islamabad">Islamabad</option>
+                            <option value="Entry Test">Entry Test</option>
                         </select>
                     </div>
                 </div>
             </aside>
 
-            <!-- Center Content for Listings -->
+            <!-- Column 2: Listings Section -->
             <section class="listings-section">
-                <div class="job-listings">
-                    <!-- Job cards will be loaded here by script.js -->
-                </div>
-                 <div class="education-listings" style="display:none;">
-                    <!-- Education cards will be loaded here by script.js -->
+                <div class="listings-container">
+                    <!-- Cards will be loaded by JavaScript -->
                 </div>
             </section>
 
-            <!-- Right Sidebar for User Dashboard -->
+            <!-- Column 3: AI Assistant -->
             <aside class="user-dashboard">
-                <h4>Aapka Career Assistant</h4>
+                <h4>Aapka AI Career Assistant</h4>
                 <div class="dashboard-widget">
-                    <h5>Resume Score</h5>
-                    <div class="score-visual">78%</div>
-                    <p>Aapka resume behtar ho sakta hai. <a href="#">Tips Dekhein</a></p>
+                    <h5>Resume Mazboot Karein</h5>
+                    <p>AI se apne resume ka jaiza lein aur interview calls ke chances barhayein.</p>
+                    <button id="get-resume-tips-btn" class="ai-btn">AI Tips Dekhein</button>
                 </div>
-                <div class="dashboard-widget">
-                    <h5>Skills Ki Kami</h5>
-                    <p>Aap 'Project Manager' ke liye 90% tayyar hain. <a href="#">Agile</a> seekhein aur 100% tayyar ho jayein.</p>
-                </div>
-                <div class="dashboard-widget">
-                    <h5>Application Status</h5>
-                    <p>Aapki darkhwast <strong>Techlogix</strong> ne dekh li hai.</p>
+                 <div class="dashboard-widget">
+                    <h5>Interview Ki Tayyari</h5>
+                    <p>Kisi bhi job ke liye AI se interview ke sawalat aur jawabat ki practice karein.</p>
                 </div>
             </aside>
         </div>
+        
+        <!-- ===== FEATURED COMPANIES (Updated with real Pakistani company names) ===== -->
+        <section class="featured-companies-section">
+            <div class="container">
+                <h2>Top Companies Hiring Now</h2>
+                <div class="company-logos">
+                    <img src="https://placehold.co/150x70/ffffff/000000?text=Jazz" alt="Jazz Logo">
+                    <img src="https://placehold.co/150x70/ffffff/000000?text=HBL" alt="HBL Logo">
+                    <img src="https://placehold.co/150x70/ffffff/000000?text=Unilever" alt="Unilever Logo">
+                    <img src="https://placehold.co/150x70/ffffff/000000?text=Systems+Ltd" alt="Systems Limited Logo">
+                    <img src="https://placehold.co/150x70/ffffff/000000?text=Engro" alt="Engro Logo">
+                </div>
+            </div>
+        </section>
+
     </main>
     
-    <!-- ===== FOOTER ===== -->
     <footer class="main-footer">
-        <p>&copy; 2025 KaamKaaj.com.pk. All rights reserved.</p>
+        <div class="container">
+            <p>&copy; 2025 KaamKaaj.pk. Pakistan ka Mustaqbil, Yahan Banta Hai.</p>
+        </div>
     </footer>
 
-    <!-- Message Bar for notifications -->
-    <div id="message-bar"></div>
-    
-    <!-- Supabase and Main Script -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- ===== MODALS ===== -->
+    <div id="resume-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" data-modal-id="resume-modal">&times;</button>
+            <h3>✨ AI Resume Assistant</h3>
+            <p>Apna resume neeche paste karein aur behtari ke liye fori tajaveez haasil karein.</p>
+            <form id="resume-form">
+                <textarea id="resume-text" rows="10" placeholder="Apna resume yahan paste karein..."></textarea>
+                <button type="submit" class="btn-primary">Tajaveez Haasil Karein</button>
+            </form>
+            <div id="resume-tips-result" class="modal-result"></div>
+        </div>
+    </div>
+    <div id="interview-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" data-modal-id="interview-modal">&times;</button>
+            <h3 id="interview-modal-title">✨ AI Interview Coach</h3>
+            <div id="interview-questions-result" class="modal-result"></div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

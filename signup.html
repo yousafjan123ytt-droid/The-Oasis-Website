@@ -3,33 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - KaamKaaj.com.pk</title>
+    <title>Sign Up - KaamKaaj.pk</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Yeh message bar aapke script.js mein mojood showMessage function ke liye zaroori hai -->
-    <div id="message-bar"></div>
+    <!-- ===== SIMPLIFIED HEADER ===== -->
+    <header class="simple-header">
+        <div class="container">
+            <a href="index.html" class="logo">KaamKaaj.pk</a>
+        </div>
+    </header>
 
-    <div class="auth-container">
-        <h1>Create a New Account</h1>
-        <form id="signup-form" class="auth-form">
-            <div class="form-group">
-                <label for="signup-email">Email</label>
-                <input type="email" id="signup-email" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label for="signup-password">Password</label>
-                <input type="password" id="signup-password" placeholder="Create a password" required>
-            </div>
-            <button type="submit" class="submit-btn">Create Account</button>
-        </form>
-        <p class="form-switch">
-            Already have an account? <a href="login.html">Login</a>
-        </p>
-    </div>
+    <main>
+        <div class="auth-container">
+            <div class="auth-form-card">
+                <h2>Apna Free Account Banayein</h2>
+                <p class="auth-subtitle">Apne career ka safar shuru karein.</p>
+                <form>
+                    <div class="input-group">
+                        <label for="fullname">Poora Naam</label>
+                        <input type="text" id="fullname" name="fullname" placeholder="Jese: Ali Khan" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="aapka.email@example.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password Banayein</label>
+                        <input type="password" id="password" name="password" placeholder="Kam se kam 8 huroof" required>
+                    </div>
+                     <div class="input-group">
+                        <label for="confirm-password">Password Ki Tasdeeq Karein</label>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Password dobara likhein" required>
+                    </div>
 
-    <!-- Script files -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js"></script>
+                    <div class="input-group">
+                        <label>Aap Kon Hain?</label>
+                        <div class="user-type-options">
+                            <label><input type="radio" name="user-type" value="seeker" checked> Naukri Dhoond Raha Hoon</label>
+                            <label><input type="radio" name="user-type" value="employer"> Main Company Hoon</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary auth-btn">Account Banayein</button>
+                </form>
+                <p class="auth-switch">
+                    Pehle se account hai? <a href="login.html">Yahan Login Karein</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 KaamKaaj.pk. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
